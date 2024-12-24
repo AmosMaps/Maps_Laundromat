@@ -58,9 +58,52 @@ def main():
         st.divider()
         st.markdown(footer_html, unsafe_allow_html=True)
         st.image(image_maps)
+        
+    # Predict Your Cost page
+    if selection == "Predict Your Cost":
+        st.title("Predict Your Cost")
+
+        # Input form for items and services
+        st.write("Enter the quantities for each item/service:")
+        blanket_count = st.number_input("How many blankets?", min_value=0, value=0)
+        carpet_count = st.number_input("How many carpets?", min_value=0, value=0)
+        wash_count = st.number_input("How many washes?", min_value=0, value=0)
+        dry_count = st.number_input("How many dry items?", min_value=0, value=0)
+        sneakers_count = st.number_input("How many sneakers?", min_value=0, value=0)
+        crocs_count = st.number_input("How many crocs/slides?", min_value=0, value=0)
+        
+        # Detergent selection
+        soap_count = st.number_input("How many soaps?", min_value=0, value=0)
+        stasoft_count = st.number_input("How many Stasoft?", min_value=0, value=0)
+        
+        # Transport selection
+        transport_options = {
+            "Local (Return)": 30,
+            "Hospital (Return)": 30,
+            "Pakedi (Return)": 60,
+        }
+        selected_transport = st.selectbox("Select transport option:", options=transport_options.keys())
+        transport_cost = transport_options[selected_transport]
+
+        # Cost calculation
+        total_cost = (
+            blanket_count * 50 +
+            carpet_count * 45 +
+            wash_count * 25 +
+            dry_count * 25 +
+            sneakers_count * 50 +
+            crocs_count * 20 +
+            soap_count * 5 +
+            stasoft_count * 5 +
+            transport_cost
+        )
+
+        # Display the result
+        st.subheader(f"Total Predicted Cost: R {total_cost}")
+
 
     # Behind the Scenes page
-    elif selection == "Behind the Scenes":
+    if selection == "Behind the Scenes":
         st.title("Behind the Scenes")
         st.write("This section explains how the recommendation system works.")
         # Add more content here as needed.
