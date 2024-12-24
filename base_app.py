@@ -116,16 +116,39 @@ if selected_page == "Directions":
     # Display map in Streamlit
     components.html(m._repr_html_(), height=500)
 
-    # Get user location input and calculate directions link
-    st.write("Click on the 'Get Directions' button to get directions to Map's Laundromat.")
+    # Ask the user for permission to access their location
+    st.write("We can automatically detect your current location to get directions to our laundromat.")
     
-    if st.button('Get Directions'):
-        # Request user to input their location (latitude and longitude)
-        user_location_lat = st.number_input("Enter your Latitude", value=-23.9)  # Example value
-        user_location_lon = st.number_input("Enter your Longitude", value=29.7)  # Example value
+    # JavaScript to get the user's current location
+    geolocation_js = """
+    <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                window.parent.postMessage({lat: lat, lon: lon}, "*");
+            }, function() {
+                alert("Geolocation failed. Please enable location services.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    </script>
+    """
+    # Embed the JS code to get the user's location
+    components.html(geolocation_js, height=0)
+
+    # Wait for the location data and create the directions URL
+    location = st.session_state.get('user_location')
+    
+    if location:
+        user_location_lat = location['lat']
+        user_location_lon = location['lon']
 
         # Create a Google Maps directions URL
         google_maps_url = f"https://www.google.com/maps/dir/{user_location_lat},{user_location_lon}/{laundromat_location[0]},{laundromat_location[1]}"
 
         # Display the Google Maps link for directions
         st.markdown(f"[Click here for Directions to Map's Laundromat](<{google_maps_url}>)")
+    else:
+        st.write("We were unable to retrieve your location. Please enable location access and try again.")
