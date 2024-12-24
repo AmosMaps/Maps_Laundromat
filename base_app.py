@@ -45,12 +45,14 @@ if selected_page == "Predict Your Cost":
     # Inputs for cost prediction
     blanket = st.number_input("Blankets", min_value=0, value=0) * 50
     carpet = st.number_input("Carpets", min_value=0, value=0) * 45
+    sneakers = st.number_input("Sneakers", min_value=0, value=0) * 50
+    crocs_slides = st.number_input("Crocs/Slides", min_value=0, value=0) * 20
     wash = st.number_input("Washes", min_value=0, value=0) * 25
     dry = st.number_input("Dries", min_value=0, value=0) * 25
     soap = st.number_input("Soap", min_value=0, value=0) * 5
     stasoft = st.number_input("Sta-Soft", min_value=0, value=0) * 5
-    sneakers = st.number_input("Sneakers", min_value=0, value=0) * 50
-    crocs_slides = st.number_input("Crocs/Slides", min_value=0, value=0) * 20
+    plastic = st.number_input("Plastic", min_value=0, value=0) * 7
+    
 
     # Transport selection
     transport_options = {
@@ -63,7 +65,7 @@ if selected_page == "Predict Your Cost":
     transport_cost = transport_options[transport]
 
     # Calculate total cost
-    total_cost = blanket + carpet + wash + dry + soap + stasoft + sneakers + crocs_slides + transport_cost
+    total_cost = blanket + carpet + wash + dry + soap + stasoft + sneakers + crocs_slides + transport_cost + plastic
     st.subheader(f"Your Estimated Cost: R {total_cost}")
 
 # Booking Page
@@ -94,18 +96,18 @@ if selected_page == "Booking Page":
 # Directions Page
 if selected_page == "Directions":
     st.title("Get Directions")
-    st.write("Get directions to our laundromat with a satellite view on the map.")
+    st.write("Get directions to our laundromat with a map showing roads and houses.")
 
     # Coordinates of the laundromat location
     laundromat_location = [-23.875124, 29.743984]  
 
-    # Create a map with a satellite view and add attribution
+    # Create a map with OpenStreetMap tiles (roads, houses, etc.) and add attribution
     m = folium.Map(
         location=laundromat_location,
         zoom_start=16,
         control_scale=True,
-        tiles='Stamen Terrain',
-        attr="Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
+        tiles='OpenStreetMap',  
+        attr="Map data © OpenStreetMap contributors"
     )
 
     # Add a marker for the laundromat
