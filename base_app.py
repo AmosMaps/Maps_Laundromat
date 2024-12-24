@@ -1,11 +1,14 @@
 import streamlit as st
 import urllib.parse
 from datetime import datetime
+import folium
+from folium.plugins import MarkerCluster
+import streamlit.components.v1 as components
 
 # Sidebar Navigation
 st.sidebar.title("Map's Laundromat")
 st.sidebar.image("images/Maps.png")
-menu_options = ["About", "Predict Your Cost", "Booking Page"]
+menu_options = ["About", "Predict Your Cost", "Booking Page", "Directions"]
 selected_page = st.sidebar.radio("Navigate To", menu_options)
 
 # About Page
@@ -88,3 +91,17 @@ if selected_page == "Booking Page":
             st.success("Booking submitted! Your details have been sent to WhatsApp.")
             st.markdown(f"<meta http-equiv='refresh' content='0; url={whatsapp_link}'>", unsafe_allow_html=True)
 
+# Directions Page
+if selected_page == "Directions":
+    st.title("Get Directions")
+    st.write("Get directions to our laundromat with a satellite view on the map.")
+
+    # Coordinates of the laundromat location (example coordinates for Turfloop)
+    laundromat_location = [-23.875124, 29.743984]  
+
+    # Create a map with a satellite view
+    m = folium.Map(location=laundromat_location, zoom_start=16, control_scale=True, tiles='Stamen Terrain')
+    folium.Marker(laundromat_location, popup="Map's Laundromat").add_to(m)
+
+    # Display map in Streamlit
+    components.html(m._repr_html_(), height=500)
