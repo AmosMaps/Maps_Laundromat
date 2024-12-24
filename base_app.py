@@ -51,10 +51,10 @@ if selected_page == "Predict Your Cost":
 
     # Transport selection
     transport_options = {
+        "Drop-off & pickup": 0,
         "Local (Return)": 30,
         "Hospital (Return)": 30,
-        "Pakedi (Return)": 60,
-        "Drop-off & pickup": 0
+        "Pakedi (Return)": 60
     }
     transport = st.selectbox("Select Transport Option", options=list(transport_options.keys()))
     transport_cost = transport_options[transport]
