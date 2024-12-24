@@ -96,11 +96,19 @@ if selected_page == "Directions":
     st.title("Get Directions")
     st.write("Get directions to our laundromat with a satellite view on the map.")
 
-    # Coordinates of the laundromat location (example coordinates for Turfloop)
+    # Coordinates of the laundromat location
     laundromat_location = [-23.875124, 29.743984]  
 
-    # Create a map with a satellite view
-    m = folium.Map(location=laundromat_location, zoom_start=16, control_scale=True, tiles='Stamen Terrain')
+    # Create a map with a satellite view and add attribution
+    m = folium.Map(
+        location=laundromat_location,
+        zoom_start=16,
+        control_scale=True,
+        tiles='Stamen Terrain',
+        attr="Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
+    )
+
+    # Add a marker for the laundromat
     folium.Marker(laundromat_location, popup="Map's Laundromat").add_to(m)
 
     # Display map in Streamlit
