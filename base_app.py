@@ -106,7 +106,7 @@ if selected_page == "Directions":
         location=laundromat_location,
         zoom_start=16,
         control_scale=True,
-        tiles='OpenStreetMap',  
+        tiles='OpenStreetMap',  # Use OpenStreetMap for roads and buildings
         attr="Map data © OpenStreetMap contributors"
     )
 
@@ -115,3 +115,17 @@ if selected_page == "Directions":
 
     # Display map in Streamlit
     components.html(m._repr_html_(), height=500)
+
+    # Get user location input and calculate directions link
+    st.write("Click on the 'Get Directions' button to get directions to Map's Laundromat.")
+    
+    if st.button('Get Directions'):
+        # Request user to input their location (latitude and longitude)
+        user_location_lat = st.number_input("Enter your Latitude", value=-23.9)  # Example value
+        user_location_lon = st.number_input("Enter your Longitude", value=29.7)  # Example value
+
+        # Create a Google Maps directions URL
+        google_maps_url = f"https://www.google.com/maps/dir/{user_location_lat},{user_location_lon}/{laundromat_location[0]},{laundromat_location[1]}"
+
+        # Display the Google Maps link for directions
+        st.markdown(f"[Click here for Directions to Map's Laundromat](<{google_maps_url}>)")
