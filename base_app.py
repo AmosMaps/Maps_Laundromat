@@ -83,7 +83,8 @@ if selected_page == "Booking Page":
                 f"Date: {booking_date}\nTime: {booking_time}\nMessage: {message}"
             )
             encoded_message = urllib.parse.quote(whatsapp_message)
-            whatsapp_link = f"https://wa.me/0828492746?text={encoded_message}"
+            whatsapp_link = f"https://wa.me/27828492746?text={encoded_message}"
             
-            st.success("Booking submitted!")
-            st.markdown(f"[Contact on WhatsApp]({whatsapp_link})", unsafe_allow_html=True)
+            st.success("Booking submitted! Your details have been sent to WhatsApp.")
+            st.markdown(f"<meta http-equiv='refresh' content='0; url={whatsapp_link}'>", unsafe_allow_html=True)
+
