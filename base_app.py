@@ -87,8 +87,9 @@ if selected_page == "Booking Page":
     if "booking_count" not in st.session_state:
         st.session_state.booking_count = {}
 
-    # Get today's date
+    # Get today's date and ensure the booking date is at least tomorrow
     today = datetime.today().date()
+    min_booking_date = today + timedelta(days=1)  # Set minimum booking date to the next day
 
     # Ensure booking count for today is initialized
     if today not in st.session_state.booking_count:
@@ -103,7 +104,9 @@ if selected_page == "Booking Page":
             name = st.text_input("Name", key="name")
             email = st.text_input("Email", key="email")
             phone = st.text_input("Phone Number", key="phone")
-            booking_date = st.date_input("Booking Date", value=today, key="booking_date")
+            
+            # Set the minimum booking date to tomorrow
+            booking_date = st.date_input("Booking Date", value=min_booking_date, min_value=min_booking_date, key="booking_date")
             
             # Allowed times for booking (06:00 to 13:00, every 30 minutes)
             allowed_times = [
