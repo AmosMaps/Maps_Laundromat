@@ -15,6 +15,15 @@ selected_page = st.sidebar.radio("Navigate To", menu_options)
 if "booking_count" not in st.session_state:
     st.session_state.booking_count = {}
 
+# Reusable function to add footer
+def add_footer():
+    footer_html = """<div style='text-align: center;'>
+    <p>Developed by Map's Holdings | Contact us at: amosphashe@gmail.com</p>
+    </div>"""
+    st.markdown("#")
+    st.divider()
+    st.markdown(footer_html, unsafe_allow_html=True)
+
 # About Page
 if selected_page == "About":
     st.markdown("# <span style='color:#EF5454'>Map's Laundromat</span>", unsafe_allow_html=True)
@@ -37,6 +46,7 @@ if selected_page == "About":
     2. Visit the *About* page to learn more about us or head to *Predict Your Cost* to calculate your laundry expenses.  
     3. Book your appointment directly through the app and enjoy stress-free laundry service.
     """, unsafe_allow_html=True)
+    add_footer()
 
 # Predict Your Cost Page
 if selected_page == "Predict Your Cost":
@@ -67,6 +77,7 @@ if selected_page == "Predict Your Cost":
     # Calculate total cost
     total_cost = blanket + carpet + wash + dry + soap + stasoft + sneakers + crocs_slides + transport_cost + plastic
     st.subheader(f"Your Estimated Cost: R {total_cost}")
+    add_footer()
 
 # Booking Page
 if selected_page == "Booking Page":
@@ -126,7 +137,7 @@ if selected_page == "Booking Page":
     # Display the number of remaining bookings for today
     remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
     st.info(f"Remaining bookings for today: {remaining_bookings}")
-
+    add_footer()
 
 # Directions Page
 if selected_page == "Directions":
@@ -155,3 +166,4 @@ if selected_page == "Directions":
     google_maps_url = f"https://www.google.com/maps/dir/?api=1&destination={laundromat_location[0]},{laundromat_location[1]}"
     if st.button("Get Directions"):
         st.markdown(f"[Click here to open directions in Google Maps]({google_maps_url})", unsafe_allow_html=True)
+    add_footer()
