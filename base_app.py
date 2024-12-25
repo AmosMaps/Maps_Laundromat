@@ -95,10 +95,14 @@ if selected_page == "Predict Your Cost":
 if selected_page == "Booking Page":
     st.title("Booking Page")
 
+    # Initialize booking_count in session state
+    if "booking_count" not in st.session_state:
+        st.session_state.booking_count = {}
+
     today = datetime.today().date()
     min_booking_date = today + timedelta(days=1)
 
-    if today not in st.session_state.get("booking_count", {}):
+    if today not in st.session_state.booking_count:
         st.session_state.booking_count[today] = 0
 
     if st.session_state.booking_count[today] >= 10:
@@ -120,6 +124,11 @@ if selected_page == "Booking Page":
                 whatsapp_link = f"https://wa.me/27828492746?text={urllib.parse.quote(whatsapp_message)}"
                 st.success("Booking submitted! Your details have been sent to WhatsApp.")
                 st.markdown(f"[Click here to confirm on WhatsApp]({whatsapp_link})")
+
+    remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
+    st.info(f"Remaining bookings for today: {remaining_bookings}")
+    add_footer()
+
 
     remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
     st.info(f"Remaining bookings for today: {remaining_bookings}")
