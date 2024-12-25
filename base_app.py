@@ -74,32 +74,49 @@ if selected_page == "Predict Your Cost":
 # Booking Page
 if selected_page == "Booking Page":
     st.title("Booking Page")
+
+    # Initialize session state for booking counts
+    if "booking_count" not in st.session_state:
+        st.session_state.booking_count = {}
+
+    # Get today's date
     today = datetime.today().date()
-    
+
+    # Ensure booking count for today is initialized
     if today not in st.session_state.booking_count:
         st.session_state.booking_count[today] = 0
-    
+
+    # Check if the maximum bookings for today have been reached
     if st.session_state.booking_count[today] >= 10:
         st.warning("We have reached the maximum number of bookings for today. Please choose another date.")
     else:
         with st.form("booking_form"):
-            name = st.text_input("Name")
-            email = st.text_input("Email")
-            phone = st.text_input("Phone Number")
-            booking_date = st.date_input("Booking Date", value=today)
-            booking_time = st.time_input("Booking Time")
+            # Booking form inputs
+            name = st.text_input("Name", key="name")
+            email = st.text_input("Email", key="email")
+            phone = st.text_input("Phone Number", key="phone")
+            booking_date = st.date_input("Booking Date", value=today, key="booking_date")
+            booking_time = st.time_input("Booking Time", key="booking_time")
 
-            if booking_time < time(6, 0) or booking_time > time(13, 0):
+            # Display error if the time is outside the allowed range
+            if booking_date == today and (booking_time < datetime.strptime("06:00", "%H:%M").time() or booking_time > datetime.strptime("13:00", "%H:%M").time()):
                 st.error("Please select a booking time between 06:00 and 13:00.")
-            else:
-                message = st.text_area("Additional Message")
-                submitted = st.form_submit_button("Submit Booking")
 
-                if submitted:
-                    # Increment booking count
+            # Additional message field
+            message = st.text_area("Additional Message", key="message")
+            submitted = st.form_submit_button("Submit Booking")
+
+            if submitted:
+                # Validate time again before processing
+                if booking_time < datetime.strptime("06:00", "%H:%M").time() or booking_time > datetime.strptime("13:00", "%H:%M").time():
+                    st.error("Booking time must be between 06:00 and 13:00.")
+                else:
+                    # Increment booking count for the selected date
+                    if booking_date not in st.session_state.booking_count:
+                        st.session_state.booking_count[booking_date] = 0
                     st.session_state.booking_count[booking_date] += 1
 
-                    # Generate WhatsApp link
+                    # Generate WhatsApp message and link
                     whatsapp_message = (
                         f"Name: {name}\nEmail: {email}\nPhone: {phone}\n"
                         f"Date: {booking_date}\nTime: {booking_time}\nMessage: {message}"
@@ -109,6 +126,11 @@ if selected_page == "Booking Page":
 
                     st.success("Booking submitted! Your details have been sent to WhatsApp.")
                     st.markdown(f"[Click here to confirm on WhatsApp]({whatsapp_link})")
+
+    # Display the number of remaining bookings for today
+    remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
+    st.info(f"Remaining bookings for today: {remaining_bookings}")
+
 
 # Directions Page
 if selected_page == "Directions":
