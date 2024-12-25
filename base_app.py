@@ -71,45 +71,62 @@ if selected_page == "Predict Your Cost":
 # Booking Page
 if selected_page == "Booking Page":
     st.title("Booking Page")
+
+    # Initialize session state for booking counts
+    if "booking_count" not in st.session_state:
+        st.session_state.booking_count = {}
+
+    # Get today's date
     today = datetime.today().date()
 
+    # Ensure booking count for today is initialized
     if today not in st.session_state.booking_count:
         st.session_state.booking_count[today] = 0
 
+    # Check if the maximum bookings for today have been reached
     if st.session_state.booking_count[today] >= 10:
         st.warning("We have reached the maximum number of bookings for today. Please choose another date.")
     else:
         with st.form("booking_form"):
-            name = st.text_input("Name")
-            email = st.text_input("Email")
-            phone = st.text_input("Phone Number")
-            booking_date = st.date_input("Booking Date", value=today)
-            booking_time = st.time_input("Booking Time")
+            # Booking form inputs
+            name = st.text_input("Name", key="name")
+            email = st.text_input("Email", key="email")
+            phone = st.text_input("Phone Number", key="phone")
+            booking_date = st.date_input("Booking Date", value=today, key="booking_date")
+            
+            # Allowed times for booking (06:00 to 13:00, every 30 minutes)
+            allowed_times = [
+                time(hour, minute)
+                for hour in range(6, 14)  # 6:00 to 13:00
+                for minute in (0, 30)
+            ]
+            booking_time = st.selectbox("Booking Time", options=allowed_times, key="booking_time")
 
-            if booking_time < time(6, 0) or booking_time > time(13, 0):
-                st.error("Please select a booking time between 06:00 and 13:00.")
-            else:
-                message = st.text_area("Additional Message")
-                submitted = st.form_submit_button("Submit Booking")
+            # Additional message field
+            message = st.text_area("Additional Message", key="message")
+            submitted = st.form_submit_button("Submit Booking")
 
-                if submitted:
-                    st.session_state.booking_count[booking_date] = (
-                        st.session_state.booking_count.get(booking_date, 0) + 1
-                    )
+            if submitted:
+                # Increment booking count for the selected date
+                if booking_date not in st.session_state.booking_count:
+                    st.session_state.booking_count[booking_date] = 0
+                st.session_state.booking_count[booking_date] += 1
 
-                    # Generate WhatsApp link
-                    whatsapp_message = (
-                        f"Name: {name}\nEmail: {email}\nPhone: {phone}\n"
-                        f"Date: {booking_date}\nTime: {booking_time}\nMessage: {message}"
-                    )
-                    encoded_message = urllib.parse.quote(whatsapp_message)
-                    whatsapp_link = f"https://wa.me/27828492746?text={encoded_message}"
+                # Generate WhatsApp message and link
+                whatsapp_message = (
+                    f"Name: {name}\nEmail: {email}\nPhone: {phone}\n"
+                    f"Date: {booking_date}\nTime: {booking_time}\nMessage: {message}"
+                )
+                encoded_message = urllib.parse.quote(whatsapp_message)
+                whatsapp_link = f"https://wa.me/27828492746?text={encoded_message}"
 
-                    st.success("Booking submitted! Your details have been sent to WhatsApp.")
-                    st.markdown(f"[Click here to confirm on WhatsApp]({whatsapp_link})")
+                st.success("Booking submitted! Your details have been sent to WhatsApp.")
+                st.markdown(f"[Click here to confirm on WhatsApp]({whatsapp_link})")
 
+    # Display the number of remaining bookings for today
     remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
     st.info(f"Remaining bookings for today: {remaining_bookings}")
+
 
 # Directions Page
 if selected_page == "Directions":
