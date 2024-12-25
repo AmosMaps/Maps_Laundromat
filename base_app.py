@@ -40,32 +40,21 @@ if selected_page == "About":
     Use the navigation menu on the sidebar to explore our features and enjoy a stress-free laundry experience.
     """, unsafe_allow_html=True)
 
-    # Price List Section
+    # Organized image sections
     st.markdown("### Price List")
     st.image("images/Poster.png", use_column_width=True)
 
-    # Clothes Section
     st.markdown("### Clothes")
-    st.image("images/Clothes1.png", use_column_width=True)
-    st.image("images/Clothes2.png", use_column_width=True)
-    st.image("images/Clothes3.png", use_column_width=True)
-    st.image("images/Clothes4.png", use_column_width=True)
+    st.image(["images/Clothes1.png", "images/Clothes2.png", "images/Clothes3.png", "images/Clothes4.png"], use_column_width=True)
 
-    # Sneakers Section
     st.markdown("### Sneakers")
-    st.image("images/Sneaker1.png", use_column_width=True)
-    st.image("images/Sneaker2.png", use_column_width=True)
+    st.image(["images/Sneaker1.png", "images/Sneaker2.png"], use_column_width=True)
 
-    # Blankets Section
     st.markdown("### Blankets")
-    st.image("images/Blanket1.png", use_column_width=True)
-    st.image("images/Blanket2.png", use_column_width=True)
+    st.image(["images/Blanket1.png", "images/Blanket2.png"], use_column_width=True)
 
-    # Transport System Section
     st.markdown("### Transport System")
-    st.image("images/Transport1.png", use_column_width=True)
-    st.image("images/Transport2.png", use_column_width=True)
-    st.image("images/Transport3.png", use_column_width=True)
+    st.image(["images/Transport1.png", "images/Transport2.png", "images/Transport3.png"], use_column_width=True)
 
     add_footer()
 
@@ -75,15 +64,15 @@ if selected_page == "Predict Your Cost":
     st.write("Estimate your laundry cost by entering the quantities of the items you'd like washed.")
 
     # Inputs for cost prediction
-    blanket = st.number_input("Blankets/Comforters/Duvets", min_value=0, value=0) * 50
-    carpet = st.number_input("Carpets", min_value=0, value=0) * 45
-    sneakers = st.number_input("Sneakers", min_value=0, value=0) * 50
-    crocs_slides = st.number_input("Crocs/Slides", min_value=0, value=0) * 20
-    wash = st.number_input("Washes", min_value=0, value=0) * 25
-    dry = st.number_input("Dries", min_value=0, value=0) * 25
-    soap = st.number_input("Soap", min_value=0, value=0) * 5
-    stasoft = st.number_input("Sta-Soft", min_value=0, value=0) * 5
-    plastic = st.number_input("Plastic", min_value=0, value=0) * 7
+    blanket = st.number_input("Blankets/Comforters/Duvets (R50 each)", min_value=0, value=0) * 50
+    carpet = st.number_input("Carpets (R45 each)", min_value=0, value=0) * 45
+    sneakers = st.number_input("Sneakers (R50 each)", min_value=0, value=0) * 50
+    crocs_slides = st.number_input("Crocs/Slides (R20 each)", min_value=0, value=0) * 20
+    wash = st.number_input("Washes (R25 each)", min_value=0, value=0) * 25
+    dry = st.number_input("Dries (R25 each)", min_value=0, value=0) * 25
+    soap = st.number_input("Soap (R5 each)", min_value=0, value=0) * 5
+    stasoft = st.number_input("Sta-Soft (R5 each)", min_value=0, value=0) * 5
+    plastic = st.number_input("Plastic (R7 each)", min_value=0, value=0) * 7
 
     # Transport selection
     transport_options = {
