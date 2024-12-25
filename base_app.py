@@ -20,20 +20,17 @@ if selected_page == "About":
     st.markdown("# <span style='color:#EF5454'>Map's Laundromat</span>", unsafe_allow_html=True)
     st.markdown("""
     ---
-    
     ### <span style="color:DarkSlateBlue">Introduction</span>
     Welcome to **Map's Laundromat**, where we provide fast, reliable, and affordable same-day laundry services in Turfloop. 
     From everyday garments to delicate fabrics, we make laundry day a breeze!
     
     ---
-    
     ### <span style="color:DarkSlateBlue">App Features</span>
     Our app offers a seamless and user-friendly experience by providing:
-    * **Cost Prediction**: Get an estimate of your total cost before scheduling your appointment.
-    * **Convenient Booking**: Choose a time that suits you best to drop off or collect your laundry.
+    - **Cost Prediction**: Get an estimate of your total cost before scheduling your appointment.
+    - **Convenient Booking**: Choose a time that suits you best to drop off or collect your laundry.
     
     ---
-    
     ### <span style="color:DarkSlateBlue">How It Works</span>
     Getting started is simple!  
     1. Use the navigation menu on the sidebar to explore our features.
@@ -74,49 +71,33 @@ if selected_page == "Predict Your Cost":
 # Booking Page
 if selected_page == "Booking Page":
     st.title("Booking Page")
-
-    # Initialize session state for booking counts
-    if "booking_count" not in st.session_state:
-        st.session_state.booking_count = {}
-
-    # Get today's date
     today = datetime.today().date()
 
-    # Ensure booking count for today is initialized
     if today not in st.session_state.booking_count:
         st.session_state.booking_count[today] = 0
 
-    # Check if the maximum bookings for today have been reached
     if st.session_state.booking_count[today] >= 10:
         st.warning("We have reached the maximum number of bookings for today. Please choose another date.")
     else:
         with st.form("booking_form"):
-            # Booking form inputs
-            name = st.text_input("Name", key="name")
-            email = st.text_input("Email", key="email")
-            phone = st.text_input("Phone Number", key="phone")
-            booking_date = st.date_input("Booking Date", value=today, key="booking_date")
-            booking_time = st.time_input("Booking Time", key="booking_time")
+            name = st.text_input("Name")
+            email = st.text_input("Email")
+            phone = st.text_input("Phone Number")
+            booking_date = st.date_input("Booking Date", value=today)
+            booking_time = st.time_input("Booking Time")
 
-            # Display error if the time is outside the allowed range
-            if booking_date == today and (booking_time < datetime.strptime("06:00", "%H:%M").time() or booking_time > datetime.strptime("13:00", "%H:%M").time()):
+            if booking_time < time(6, 0) or booking_time > time(13, 0):
                 st.error("Please select a booking time between 06:00 and 13:00.")
+            else:
+                message = st.text_area("Additional Message")
+                submitted = st.form_submit_button("Submit Booking")
 
-            # Additional message field
-            message = st.text_area("Additional Message", key="message")
-            submitted = st.form_submit_button("Submit Booking")
+                if submitted:
+                    st.session_state.booking_count[booking_date] = (
+                        st.session_state.booking_count.get(booking_date, 0) + 1
+                    )
 
-            if submitted:
-                # Validate time again before processing
-                if booking_time < datetime.strptime("06:00", "%H:%M").time() or booking_time > datetime.strptime("13:00", "%H:%M").time():
-                    st.error("Booking time must be between 06:00 and 13:00.")
-                else:
-                    # Increment booking count for the selected date
-                    if booking_date not in st.session_state.booking_count:
-                        st.session_state.booking_count[booking_date] = 0
-                    st.session_state.booking_count[booking_date] += 1
-
-                    # Generate WhatsApp message and link
+                    # Generate WhatsApp link
                     whatsapp_message = (
                         f"Name: {name}\nEmail: {email}\nPhone: {phone}\n"
                         f"Date: {booking_date}\nTime: {booking_time}\nMessage: {message}"
@@ -127,10 +108,8 @@ if selected_page == "Booking Page":
                     st.success("Booking submitted! Your details have been sent to WhatsApp.")
                     st.markdown(f"[Click here to confirm on WhatsApp]({whatsapp_link})")
 
-    # Display the number of remaining bookings for today
     remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
     st.info(f"Remaining bookings for today: {remaining_bookings}")
-
 
 # Directions Page
 if selected_page == "Directions":
@@ -138,7 +117,7 @@ if selected_page == "Directions":
     st.write("Get directions to our laundromat with a map showing roads and houses.")
 
     # Coordinates of the laundromat location
-    laundromat_location = [-23.875124, 29.743984]  
+    laundromat_location = [-23.875124, 29.743984]
 
     # Create a map with OpenStreetMap tiles
     m = folium.Map(
@@ -155,10 +134,7 @@ if selected_page == "Directions":
     # Display map in Streamlit
     components.html(m._repr_html_(), height=500)
 
-    # Generate Google Maps link for directions
+    # Google Maps directions button
     google_maps_url = f"https://www.google.com/maps/dir/?api=1&destination={laundromat_location[0]},{laundromat_location[1]}"
-
-    # Add a button to get directions
     if st.button("Get Directions"):
         st.markdown(f"[Click here to open directions in Google Maps]({google_maps_url})", unsafe_allow_html=True)
-
