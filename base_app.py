@@ -154,3 +154,11 @@ if selected_page == "Directions":
 
     # Display map in Streamlit
     components.html(m._repr_html_(), height=500)
+
+    # Generate Google Maps link for directions
+    google_maps_url = f"https://www.google.com/maps/dir/?api=1&destination={laundromat_location[0]},{laundromat_location[1]}"
+
+    # Add a button to get directions
+    if st.button("Get Directions"):
+        st.markdown(f"[Click here to open directions in Google Maps]({google_maps_url})", unsafe_allow_html=True)
+
