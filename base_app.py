@@ -44,6 +44,7 @@ if selected_page == "About":
     1. Use the navigation menu on the sidebar to explore our features.
     2. Visit the *About* page to learn more about us or head to *Predict Your Cost* to calculate your laundry expenses.  
     3. Book your appointment directly through the app and enjoy stress-free laundry service.
+    4. Head to the *Directions* page to get detailed directions to our laundromat, complete with a map and navigation assistance.
     """, unsafe_allow_html=True)
     add_footer()  # Footer added after content
 
@@ -144,7 +145,7 @@ if selected_page == "Booking Page":
 # Directions Page
 if selected_page == "Directions":
     st.title("Get Directions")
-    st.write("Get directions to our laundromat with a map showing roads and houses.")
+    st.write("Get precise directions to our laundromat via Google Maps with an interactive satellite view, road networks, and labeled landmarks for easy navigation.")
 
     # Coordinates of the laundromat location
     laundromat_location = [-23.875124, 29.743984]
