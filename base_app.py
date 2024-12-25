@@ -1,15 +1,19 @@
 import streamlit as st
 import urllib.parse
-from datetime import datetime
+from datetime import datetime, time
 import folium
 from folium.plugins import MarkerCluster
 import streamlit.components.v1 as components
 
 # Sidebar Navigation
 st.sidebar.title("Map's Laundromat")
-st.sidebar.image("images/Maps.png")
+st.sidebar.image("images/Maps_no_bg.png", use_column_width=True)
 menu_options = ["About", "Predict Your Cost", "Booking Page", "Directions"]
 selected_page = st.sidebar.radio("Navigate To", menu_options)
+
+# Store booking count
+if "booking_count" not in st.session_state:
+    st.session_state.booking_count = {}
 
 # About Page
 if selected_page == "About":
@@ -52,7 +56,6 @@ if selected_page == "Predict Your Cost":
     soap = st.number_input("Soap", min_value=0, value=0) * 5
     stasoft = st.number_input("Sta-Soft", min_value=0, value=0) * 5
     plastic = st.number_input("Plastic", min_value=0, value=0) * 7
-    
 
     # Transport selection
     transport_options = {
@@ -71,27 +74,41 @@ if selected_page == "Predict Your Cost":
 # Booking Page
 if selected_page == "Booking Page":
     st.title("Booking Page")
-    with st.form("booking_form"):
-        name = st.text_input("Name")
-        email = st.text_input("Email")
-        phone = st.text_input("Phone Number")
-        booking_date = st.date_input("Booking Date", value=datetime.today())
-        booking_time = st.time_input("Booking Time")
-        message = st.text_area("Additional Message")
+    today = datetime.today().date()
+    
+    if today not in st.session_state.booking_count:
+        st.session_state.booking_count[today] = 0
+    
+    if st.session_state.booking_count[today] >= 10:
+        st.warning("We have reached the maximum number of bookings for today. Please choose another date.")
+    else:
+        with st.form("booking_form"):
+            name = st.text_input("Name")
+            email = st.text_input("Email")
+            phone = st.text_input("Phone Number")
+            booking_date = st.date_input("Booking Date", value=today)
+            booking_time = st.time_input("Booking Time")
 
-        submitted = st.form_submit_button("Submit Booking")
+            if booking_time < time(6, 0) or booking_time > time(13, 0):
+                st.error("Please select a booking time between 06:00 and 13:00.")
+            else:
+                message = st.text_area("Additional Message")
+                submitted = st.form_submit_button("Submit Booking")
 
-        if submitted:
-            # Generate WhatsApp link
-            whatsapp_message = (
-                f"Name: {name}\nEmail: {email}\nPhone: {phone}\n"
-                f"Date: {booking_date}\nTime: {booking_time}\nMessage: {message}"
-            )
-            encoded_message = urllib.parse.quote(whatsapp_message)
-            whatsapp_link = f"https://wa.me/27828492746?text={encoded_message}"
-            
-            st.success("Booking submitted! Your details have been sent to WhatsApp.")
-            st.markdown(f"<meta http-equiv='refresh' content='0; url={whatsapp_link}'>", unsafe_allow_html=True)
+                if submitted:
+                    # Increment booking count
+                    st.session_state.booking_count[booking_date] += 1
+
+                    # Generate WhatsApp link
+                    whatsapp_message = (
+                        f"Name: {name}\nEmail: {email}\nPhone: {phone}\n"
+                        f"Date: {booking_date}\nTime: {booking_time}\nMessage: {message}"
+                    )
+                    encoded_message = urllib.parse.quote(whatsapp_message)
+                    whatsapp_link = f"https://wa.me/27828492746?text={encoded_message}"
+
+                    st.success("Booking submitted! Your details have been sent to WhatsApp.")
+                    st.markdown(f"[Click here to confirm on WhatsApp]({whatsapp_link})")
 
 # Directions Page
 if selected_page == "Directions":
@@ -101,12 +118,12 @@ if selected_page == "Directions":
     # Coordinates of the laundromat location
     laundromat_location = [-23.875124, 29.743984]  
 
-    # Create a map with OpenStreetMap tiles (roads, houses, etc.) and add attribution
+    # Create a map with OpenStreetMap tiles
     m = folium.Map(
         location=laundromat_location,
         zoom_start=16,
         control_scale=True,
-        tiles='OpenStreetMap',  # Use OpenStreetMap for roads and buildings
+        tiles='OpenStreetMap',
         attr="Map data © OpenStreetMap contributors"
     )
 
@@ -115,40 +132,3 @@ if selected_page == "Directions":
 
     # Display map in Streamlit
     components.html(m._repr_html_(), height=500)
-
-    # Ask the user for permission to access their location
-    st.write("We can automatically detect your current location to get directions to our laundromat.")
-    
-    # JavaScript to get the user's current location
-    geolocation_js = """
-    <script>
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                window.parent.postMessage({lat: lat, lon: lon}, "*");
-            }, function() {
-                alert("Geolocation failed. Please enable location services.");
-            });
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    </script>
-    """
-    # Embed the JS code to get the user's location
-    components.html(geolocation_js, height=0)
-
-    # Wait for the location data and create the directions URL
-    location = st.session_state.get('user_location')
-    
-    if location:
-        user_location_lat = location['lat']
-        user_location_lon = location['lon']
-
-        # Create a Google Maps directions URL
-        google_maps_url = f"https://www.google.com/maps/dir/{user_location_lat},{user_location_lon}/{laundromat_location[0]},{laundromat_location[1]}"
-
-        # Display the Google Maps link for directions
-        st.markdown(f"[Click here for Directions to Map's Laundromat](<{google_maps_url}>)")
-    else:
-        st.write("We were unable to retrieve your location. Please enable location access and try again.")
