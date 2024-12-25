@@ -6,7 +6,6 @@ from folium.plugins import MarkerCluster
 import streamlit.components.v1 as components
 
 # Sidebar Navigation
-st.sidebar.title("Map's Laundromat")
 st.sidebar.image("images/Maps_no_bg.png", use_column_width=True)
 menu_options = ["About", "Predict Your Cost", "Booking Page", "Directions"]
 selected_page = st.sidebar.radio("Navigate To", menu_options)
@@ -46,7 +45,7 @@ if selected_page == "About":
     2. Visit the *About* page to learn more about us or head to *Predict Your Cost* to calculate your laundry expenses.  
     3. Book your appointment directly through the app and enjoy stress-free laundry service.
     """, unsafe_allow_html=True)
-    add_footer()
+    add_footer()  # Footer added after content
 
 # Predict Your Cost Page
 if selected_page == "Predict Your Cost":
@@ -77,7 +76,7 @@ if selected_page == "Predict Your Cost":
     # Calculate total cost
     total_cost = blanket + carpet + wash + dry + soap + stasoft + sneakers + crocs_slides + transport_cost + plastic
     st.subheader(f"Your Estimated Cost: R {total_cost}")
-    add_footer()
+    add_footer()  # Footer added after content
 
 # Booking Page
 if selected_page == "Booking Page":
@@ -140,7 +139,7 @@ if selected_page == "Booking Page":
     # Display the number of remaining bookings for today
     remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
     st.info(f"Remaining bookings for today: {remaining_bookings}")
-    add_footer()
+    add_footer()  # Footer added after content
 
 # Directions Page
 if selected_page == "Directions":
@@ -150,14 +149,13 @@ if selected_page == "Directions":
     # Coordinates of the laundromat location
     laundromat_location = [-23.875124, 29.743984]
 
-    # Create a map with Google Satellite tiles (with labels)
+    # Create a map with OpenStreetMap tiles
     m = folium.Map(
         location=laundromat_location,
         zoom_start=16,
         control_scale=True,
-        tiles='https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',  # Google Satellite tile layer
-        attr="Google Maps",
-        detect_retina=True
+        tiles='OpenStreetMap',
+        attr="Map data © OpenStreetMap contributors"
     )
 
     # Add a marker for the laundromat
@@ -170,5 +168,4 @@ if selected_page == "Directions":
     google_maps_url = f"https://www.google.com/maps/dir/?api=1&destination={laundromat_location[0]},{laundromat_location[1]}"
     if st.button("Get Directions"):
         st.markdown(f"[Click here to open directions in Google Maps]({google_maps_url})", unsafe_allow_html=True)
-    add_footer()
-
+    add_footer()  # Footer added after content
