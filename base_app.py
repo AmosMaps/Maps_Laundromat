@@ -40,23 +40,47 @@ if selected_page == "About":
     Use the navigation menu on the sidebar to explore our features and enjoy a stress-free laundry experience.
     """, unsafe_allow_html=True)
 
-    # Organized image sections
+    # Price List Section
     st.markdown("### Price List")
     st.image("images/Poster.png", use_column_width=True)
 
+    # Clothes Section
     st.markdown("### Clothes")
-    st.image(["images/Clothes1.png", "images/Clothes2.png", "images/Clothes3.png", "images/Clothes4.png"], use_column_width=True)
+    cols = st.columns(2)
+    with cols[0]:
+        st.image("images/Clothes1.png", caption="Clothes 1", use_column_width=True)
+        st.image("images/Clothes3.png", caption="Clothes 3", use_column_width=True)
+    with cols[1]:
+        st.image("images/Clothes2.png", caption="Clothes 2", use_column_width=True)
+        st.image("images/Clothes4.png", caption="Clothes 4", use_column_width=True)
 
+    # Sneakers Section
     st.markdown("### Sneakers")
-    st.image(["images/Sneaker1.png", "images/Sneaker2.png"], use_column_width=True)
+    cols = st.columns(2)
+    with cols[0]:
+        st.image("images/Sneaker1.png", caption="Sneaker 1", use_column_width=True)
+    with cols[1]:
+        st.image("images/Sneaker2.png", caption="Sneaker 2", use_column_width=True)
 
+    # Blankets Section
     st.markdown("### Blankets")
-    st.image(["images/Blanket1.png", "images/Blanket2.png"], use_column_width=True)
+    cols = st.columns(2)
+    with cols[0]:
+        st.image("images/Blanket1.png", caption="Blanket 1", use_column_width=True)
+    with cols[1]:
+        st.image("images/Blanket2.png", caption="Blanket 2", use_column_width=True)
 
+    # Transport System Section
     st.markdown("### Transport System")
-    st.image(["images/Transport1.png", "images/Transport2.png", "images/Transport3.png"], use_column_width=True)
+    cols = st.columns(2)
+    with cols[0]:
+        st.image("images/Transport1.png", caption="Transport 1", use_column_width=True)
+        st.image("images/Transport3.png", caption="Transport 3", use_column_width=True)
+    with cols[1]:
+        st.image("images/Transport2.png", caption="Transport 2", use_column_width=True)
 
     add_footer()
+
 
 # Predict Your Cost Page
 if selected_page == "Predict Your Cost":
@@ -129,10 +153,6 @@ if selected_page == "Booking Page":
     st.info(f"Remaining bookings for today: {remaining_bookings}")
     add_footer()
 
-
-    remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
-    st.info(f"Remaining bookings for today: {remaining_bookings}")
-    add_footer()
 
 # Directions Page
 if selected_page == "Directions":
