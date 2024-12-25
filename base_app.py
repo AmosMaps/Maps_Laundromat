@@ -150,13 +150,14 @@ if selected_page == "Directions":
     # Coordinates of the laundromat location
     laundromat_location = [-23.875124, 29.743984]
 
-    # Create a map with OpenStreetMap tiles
+    # Create a map with Google Satellite tiles (with labels)
     m = folium.Map(
         location=laundromat_location,
         zoom_start=16,
         control_scale=True,
-        tiles='OpenStreetMap',
-        attr="Map data © OpenStreetMap contributors"
+        tiles='https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',  # Google Satellite tile layer
+        attr="Google Maps",
+        detect_retina=True
     )
 
     # Add a marker for the laundromat
@@ -170,3 +171,4 @@ if selected_page == "Directions":
     if st.button("Get Directions"):
         st.markdown(f"[Click here to open directions in Google Maps]({google_maps_url})", unsafe_allow_html=True)
     add_footer()
+
