@@ -2,7 +2,6 @@ import streamlit as st
 import urllib.parse
 from datetime import datetime, time, timedelta
 import folium
-from folium.plugins import MarkerCluster
 import streamlit.components.v1 as components
 
 # Sidebar Navigation
@@ -10,15 +9,13 @@ st.sidebar.image("images/Maps_no_bg.png", use_column_width=True)
 menu_options = ["About", "Predict Your Cost", "Booking Page", "Directions"]
 selected_page = st.sidebar.radio("Navigate To", menu_options)
 
-# Store booking count
-if "booking_count" not in st.session_state:
-    st.session_state.booking_count = {}
-
 # Reusable function to add footer
 def add_footer():
-    footer_html = """<div style='text-align: center;'>
-    <p>Developed by Map's Holdings | Contact us at: amosphashe@gmail.com</p>
-    </div>"""
+    footer_html = """
+    <div style='text-align: center;'>
+        <p>Developed by Map's Holdings | Contact us at: amosphashe@gmail.com</p>
+    </div>
+    """
     st.markdown("#")
     st.divider()
     st.markdown(footer_html, unsafe_allow_html=True)
@@ -34,19 +31,43 @@ if selected_page == "About":
     
     ---
     ### <span style="color:DarkSlateBlue">App Features</span>
-    Our app offers a seamless and user-friendly experience by providing:
     - **Cost Prediction**: Get an estimate of your total cost before scheduling your appointment.
     - **Convenient Booking**: Choose a time that suits you best to drop off or collect your laundry.
+    - **Directions**: Find detailed directions to our laundromat with maps and landmarks.
     
     ---
-    ### <span style="color:DarkSlateBlue">How It Works</span>
-    Getting started is simple!  
-    1. Use the navigation menu on the sidebar to explore our features.
-    2. Visit the *About* page to learn more about us or head to *Predict Your Cost* to calculate your laundry expenses.  
-    3. Book your appointment directly through the app and enjoy stress-free laundry service.
-    4. Head to the *Directions* page to get detailed directions to our laundromat, complete with a map and navigation assistance.
+    ### <span style="color:DarkSlateBlue">Learn More</span>
+    Use the navigation menu on the sidebar to explore our features and enjoy a stress-free laundry experience.
     """, unsafe_allow_html=True)
-    add_footer()  # Footer added after content
+
+    # Price List Section
+    st.markdown("### Price List")
+    st.image("images/Poster.png", use_column_width=True)
+
+    # Clothes Section
+    st.markdown("### Clothes")
+    st.image("images/Clothes1.png", use_column_width=True)
+    st.image("images/Clothes2.png", use_column_width=True)
+    st.image("images/Clothes3.png", use_column_width=True)
+    st.image("images/Clothes4.png", use_column_width=True)
+
+    # Sneakers Section
+    st.markdown("### Sneakers")
+    st.image("images/Sneaker1.png", use_column_width=True)
+    st.image("images/Sneaker2.png", use_column_width=True)
+
+    # Blankets Section
+    st.markdown("### Blankets")
+    st.image("images/Blanket1.png", use_column_width=True)
+    st.image("images/Blanket2.png", use_column_width=True)
+
+    # Transport System Section
+    st.markdown("### Transport System")
+    st.image("images/Transport1.png", use_column_width=True)
+    st.image("images/Transport2.png", use_column_width=True)
+    st.image("images/Transport3.png", use_column_width=True)
+
+    add_footer()
 
 # Predict Your Cost Page
 if selected_page == "Predict Your Cost":
@@ -79,96 +100,53 @@ if selected_page == "Predict Your Cost":
     # Calculate total cost
     total_cost = blanket + carpet + wash + dry + soap + stasoft + sneakers + crocs_slides + transport_cost + plastic
     st.subheader(f"Your Estimated Cost: R {total_cost}")
-    add_footer()  # Footer added after content
+    add_footer()
 
 # Booking Page
 if selected_page == "Booking Page":
     st.title("Booking Page")
 
-    # Initialize session state for booking counts
-    if "booking_count" not in st.session_state:
-        st.session_state.booking_count = {}
-
-    # Get today's date and ensure the booking date is at least tomorrow
     today = datetime.today().date()
-    min_booking_date = today + timedelta(days=1)  # Set minimum booking date to the next day
+    min_booking_date = today + timedelta(days=1)
 
-    # Ensure booking count for today is initialized
-    if today not in st.session_state.booking_count:
+    if today not in st.session_state.get("booking_count", {}):
         st.session_state.booking_count[today] = 0
 
-    # Check if the maximum bookings for today have been reached
     if st.session_state.booking_count[today] >= 10:
-        st.warning("We have reached the maximum number of bookings for today. Please choose another date.")
+        st.warning("Maximum bookings for today reached. Please choose another date.")
     else:
         with st.form("booking_form"):
-            # Booking form inputs
-            name = st.text_input("Name", key="name")
-            email = st.text_input("Email", key="email")
-            phone = st.text_input("Phone Number", key="phone")
-            
-            # Set the minimum booking date to tomorrow
-            booking_date = st.date_input("Booking Date", value=min_booking_date, min_value=min_booking_date, key="booking_date")
-            
-            # Allowed times for booking (06:00 to 13:00, every 30 minutes)
-            allowed_times = [
-                time(hour, minute)
-                for hour in range(6, 14)  # 6:00 to 13:00
-                for minute in (0, 30)
-            ]
-            booking_time = st.selectbox("Booking Time", options=allowed_times, key="booking_time")
-
-            # Additional message field
-            message = st.text_area("Additional Message", key="message")
+            name = st.text_input("Name")
+            email = st.text_input("Email")
+            phone = st.text_input("Phone Number")
+            booking_date = st.date_input("Booking Date", value=min_booking_date, min_value=min_booking_date)
+            allowed_times = [time(hour, minute) for hour in range(6, 14) for minute in (0, 30)]
+            booking_time = st.selectbox("Booking Time", options=allowed_times)
+            message = st.text_area("Additional Message")
             submitted = st.form_submit_button("Submit Booking")
 
             if submitted:
-                # Increment booking count for the selected date
-                if booking_date not in st.session_state.booking_count:
-                    st.session_state.booking_count[booking_date] = 0
-                st.session_state.booking_count[booking_date] += 1
-
-                # Generate WhatsApp message and link
-                whatsapp_message = (
-                    f"Name: {name}\nEmail: {email}\nPhone: {phone}\n"
-                    f"Date: {booking_date}\nTime: {booking_time}\nMessage: {message}"
-                )
-                encoded_message = urllib.parse.quote(whatsapp_message)
-                whatsapp_link = f"https://wa.me/27828492746?text={encoded_message}"
-
+                st.session_state.booking_count[booking_date] = st.session_state.booking_count.get(booking_date, 0) + 1
+                whatsapp_message = f"Name: {name}\nEmail: {email}\nPhone: {phone}\nDate: {booking_date}\nTime: {booking_time}\nMessage: {message}"
+                whatsapp_link = f"https://wa.me/27828492746?text={urllib.parse.quote(whatsapp_message)}"
                 st.success("Booking submitted! Your details have been sent to WhatsApp.")
                 st.markdown(f"[Click here to confirm on WhatsApp]({whatsapp_link})")
 
-    # Display the number of remaining bookings for today
     remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
     st.info(f"Remaining bookings for today: {remaining_bookings}")
-    add_footer()  # Footer added after content
+    add_footer()
 
 # Directions Page
 if selected_page == "Directions":
     st.title("Get Directions")
-    st.write("Get precise directions to our laundromat via Google Maps with an interactive satellite view, road networks, and labeled landmarks for easy navigation.")
+    st.write("Navigate to our laundromat via Google Maps for precise directions and landmarks.")
 
-    # Coordinates of the laundromat location
     laundromat_location = [-23.875124, 29.743984]
-
-    # Create a map with OpenStreetMap tiles
-    m = folium.Map(
-        location=laundromat_location,
-        zoom_start=16,
-        control_scale=True,
-        tiles='OpenStreetMap',
-        attr="Map data © OpenStreetMap contributors"
-    )
-
-    # Add a marker for the laundromat
+    m = folium.Map(location=laundromat_location, zoom_start=16, control_scale=True)
     folium.Marker(laundromat_location, popup="Map's Laundromat").add_to(m)
-
-    # Display map in Streamlit
     components.html(m._repr_html_(), height=500)
 
-    # Google Maps directions button
     google_maps_url = f"https://www.google.com/maps/dir/?api=1&destination={laundromat_location[0]},{laundromat_location[1]}"
     if st.button("Get Directions"):
-        st.markdown(f"[Click here to open directions in Google Maps]({google_maps_url})", unsafe_allow_html=True)
-    add_footer()  # Footer added after content
+        st.markdown(f"[Click here for Google Maps Directions]({google_maps_url})", unsafe_allow_html=True)
+    add_footer()
