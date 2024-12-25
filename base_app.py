@@ -54,7 +54,7 @@ if selected_page == "Predict Your Cost":
     st.write("Estimate your laundry cost by entering the quantities of the items you'd like washed.")
 
     # Inputs for cost prediction
-    blanket = st.number_input("Blankets", min_value=0, value=0) * 50
+    blanket = st.number_input("Blankets/Comforters/Duvets", min_value=0, value=0) * 50
     carpet = st.number_input("Carpets", min_value=0, value=0) * 45
     sneakers = st.number_input("Sneakers", min_value=0, value=0) * 50
     crocs_slides = st.number_input("Crocs/Slides", min_value=0, value=0) * 20
@@ -69,6 +69,8 @@ if selected_page == "Predict Your Cost":
         "Drop-off & pickup": 0,
         "Local (Return)": 30,
         "Hospital (Return)": 40,
+        "Toronto/Unit F (Return)": 40,
+        "Ga-Makanye (Return)": 40,
         "Paledi (Return)": 60
     }
     transport = st.selectbox("Select Transport Option", options=list(transport_options.keys()))
