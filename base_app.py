@@ -48,36 +48,41 @@ if selected_page == "About":
     st.markdown("### Clothes")
     cols = st.columns(2)
     with cols[0]:
-        st.image("images/Clothes1.png", caption="Clothes 1", use_column_width=True)
-        st.image("images/Clothes3.png", caption="Clothes 3", use_column_width=True)
+        st.image("images/Clothes1.png", caption="Fresh and Clean Everyday Wear", use_column_width=True)
+        st.image("images/Clothes3.png", caption="Bright Whites, Crisp Colors", use_column_width=True)
     with cols[1]:
-        st.image("images/Clothes2.png", caption="Clothes 2", use_column_width=True)
-        st.image("images/Clothes4.png", caption="Clothes 4", use_column_width=True)
+        st.image("images/Clothes2.png", caption="Effortlessly Spotless Laundry", use_column_width=True)
+        st.image("images/Clothes4.png", caption="Your Wardrobe, Reimagined", use_column_width=True)
 
     # Sneakers Section
     st.markdown("### Sneakers")
     cols = st.columns(2)
     with cols[0]:
-        st.image("images/Sneaker1.png", caption="Sneaker 1", use_column_width=True)
+        st.image("images/Sneaker1.png", caption="Step into Freshness", use_column_width=True)
+        st.image("images/Sneaker2.png", caption="Squeaky Clean Kicks", use_column_width=True)
     with cols[1]:
-        st.image("images/Sneaker2.png", caption="Sneaker 2", use_column_width=True)
+        st.image("images/Sneaker3.png", caption="Every Step Shines", use_column_width=True)
+        st.image("images/Sneaker4.png", caption="Polished and Ready", use_column_width=True)
 
     # Blankets Section
     st.markdown("### Blankets")
     cols = st.columns(2)
     with cols[0]:
-        st.image("images/Blanket1.png", caption="Blanket 1", use_column_width=True)
+        st.image("images/Blanket1.png", caption="Cozy Clean Comfort", use_column_width=True)
+        st.image("images/Blanket2.png", caption="Snuggle-Ready Softness", use_column_width=True)
     with cols[1]:
-        st.image("images/Blanket2.png", caption="Blanket 2", use_column_width=True)
+        st.image("images/Blanket3.png", caption="Freshness You Can Feel", use_column_width=True)
+        st.image("images/Blanket4.png", caption="Wrapped in Cleanliness", use_column_width=True)
 
     # Transport System Section
     st.markdown("### Transport System")
     cols = st.columns(2)
     with cols[0]:
-        st.image("images/Transport1.png", caption="Transport 1", use_column_width=True)
-        st.image("images/Transport3.png", caption="Transport 3", use_column_width=True)
+        st.image("images/Transport1.png", caption="Timely Pickups Guaranteed", use_column_width=True)
+        st.image("images/Transport2.png", caption="Convenience on Wheels", use_column_width=True)
     with cols[1]:
-        st.image("images/Transport2.png", caption="Transport 2", use_column_width=True)
+        st.image("images/Transport3.png", caption="Seamless Laundry Logistics", use_column_width=True)
+        st.image("images/Transport4.png", caption="Effortless Drop-Offs", use_column_width=True)
 
     add_footer()
 
