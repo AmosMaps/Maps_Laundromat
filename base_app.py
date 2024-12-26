@@ -139,7 +139,7 @@ if selected_page == "Booking Page":
     else:
         with st.form("booking_form"):
             name = st.text_input("Name")
-            email = st.text_input("Email")
+            pickup_address = st.text_input("Laundry Collection Address", placeholder="Enter your address for pick-up")
             phone = st.text_input("Phone Number")
             booking_date = st.date_input("Booking Date", value=min_booking_date, min_value=min_booking_date)
             allowed_times = [time(hour, minute) for hour in range(6, 14) for minute in (0, 30)]
