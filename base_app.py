@@ -149,7 +149,7 @@ if selected_page == "Booking Page":
 
             if submitted:
                 st.session_state.booking_count[booking_date] = st.session_state.booking_count.get(booking_date, 0) + 1
-                whatsapp_message = f"Name: {name}\nEmail: {email}\nPhone: {phone}\nDate: {booking_date}\nTime: {booking_time}\nMessage: {message}"
+                whatsapp_message = f"Name: {name}\nPickup Address: {email}\nPhone: {phone}\nDate: {booking_date}\nTime: {booking_time}\nMessage: {message}"
                 whatsapp_link = f"https://wa.me/27828492746?text={urllib.parse.quote(whatsapp_message)}"
                 st.success("Booking submitted! Your details have been sent to WhatsApp.")
                 st.markdown(f"[Click here to confirm on WhatsApp]({whatsapp_link})")
