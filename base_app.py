@@ -22,29 +22,35 @@ def add_footer():
 
 # About Page
 if selected_page == "About":
+    # Add a title and introduction
     st.markdown("# <span style='color:#EF5454'>Map's Laundromat</span>", unsafe_allow_html=True)
     st.markdown("""
-    ---
     ### <span style="color:DarkSlateBlue">Introduction</span>
     Welcome to **Map's Laundromat**, where we provide fast, reliable, and affordable same-day laundry services in Turfloop. 
     From everyday garments to delicate fabrics, we make laundry day a breeze!
-    
-    ---
+    """, unsafe_allow_html=True)
+
+    # App Features
+    st.markdown("---")
+    st.markdown("""
     ### <span style="color:DarkSlateBlue">App Features</span>
     - **Cost Prediction**: Get an estimate of your total cost before scheduling your appointment.
     - **Convenient Booking**: Choose a time that suits you best to drop off or collect your laundry.
     - **Directions**: Find detailed directions to our laundromat with maps and landmarks.
-    
-    ---
+    """, unsafe_allow_html=True)
+
+    # Learn More Section
+    st.markdown("---")
+    st.markdown("""
     ### <span style="color:DarkSlateBlue">Learn More</span>
     Use the navigation menu on the sidebar to explore our features and enjoy a stress-free laundry experience.
     """, unsafe_allow_html=True)
 
-    # Price List Section
+    # Display price list
     st.markdown("### Price List")
     st.image("images/Poster.png", use_column_width=True)
 
-    # Clothes Section
+    # Display clothes section
     st.markdown("### Clothes")
     cols = st.columns(2)
     with cols[0]:
@@ -54,7 +60,7 @@ if selected_page == "About":
         st.image("images/Clothes2.png", caption="Effortlessly Spotless Laundry", use_column_width=True)
         st.image("images/Clothes4.png", caption="Your Wardrobe, Reimagined", use_column_width=True)
 
-    # Sneakers Section
+    # Display sneakers section
     st.markdown("### Sneakers")
     cols = st.columns(2)
     with cols[0]:
@@ -64,7 +70,7 @@ if selected_page == "About":
         st.image("images/Sneaker3.png", caption="Every Step Shines", use_column_width=True)
         st.image("images/Sneaker4.png", caption="Polished and Ready", use_column_width=True)
 
-    # Blankets Section
+    # Display blankets section
     st.markdown("### Blankets")
     cols = st.columns(2)
     with cols[0]:
@@ -74,7 +80,7 @@ if selected_page == "About":
         st.image("images/Blanket3.png", caption="Freshness You Can Feel", use_column_width=True)
         st.image("images/Blanket4.png", caption="Wrapped in Cleanliness", use_column_width=True)
 
-    # Transport System Section
+    # Display transport system section
     st.markdown("### Transport System")
     cols = st.columns(2)
     with cols[0]:
@@ -84,8 +90,8 @@ if selected_page == "About":
         st.image("images/Transport3.png", caption="Seamless Laundry Logistics", use_column_width=True)
         st.image("images/Transport4.png", caption="Effortless Drop-Offs", use_column_width=True)
 
+    # Add footer
     add_footer()
-
 
 # Predict Your Cost Page
 if selected_page == "Predict Your Cost":
