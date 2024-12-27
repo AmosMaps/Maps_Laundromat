@@ -5,7 +5,7 @@ import folium
 import streamlit.components.v1 as components
 
 # Sidebar Navigation
-st.sidebar.image("images/Maps_no_bg.png", use_column_width=True)
+st.sidebar.image("images/Maps-removebg.png", use_column_width=True)
 menu_options = ["About", "Predict Your Cost", "Booking Page", "Directions"]
 selected_page = st.sidebar.radio("Navigate To", menu_options)
 
