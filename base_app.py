@@ -27,7 +27,7 @@ def add_footer():
         }
     </style>
     <div class="footer">
-        <p>Developed by Amos Maponya | Contact us at: <a href="mailto:amosphashe@gmail.com">amosphashe@gmail.com</a></p>
+        <p>Developed by Amos Maponya | Contact me at: <a href="mailto:amosphashe@gmail.com">amosphashe@gmail.com</a></p>
     </div>
     """
     st.markdown(footer_html, unsafe_allow_html=True)
@@ -38,11 +38,14 @@ if selected_page == "About":
     # Add a title and introduction
     st.markdown(
     """
-    <div style="background-color: #f5f5f5; padding: 20px; border-radius: 10px; border: 2px solid #483D8B;">
-        <h1 style="color: #483D8B; text-align: center; font-size: 3em; font-family: Arial, sans-serif;">
+    <div style="background-color: #f5f5f5; padding: 20px; border-radius: 10px; border: 2px solid #1E3A5F;"> 
+        <!-- Updated to match the dark blue tone of the logo -->
+        <h1 style="color: #1E3A5F; text-align: center; font-size: 3em; font-family: 'Trebuchet MS', sans-serif;"> 
+            <!-- Font updated to Trebuchet MS -->
             Map's Laundromat
         </h1>
-        <p style="text-align: center; font-size: 1.2em; color: #555;">
+        <p style="text-align: center; font-size: 1.2em; color: #4A6A8A;"> 
+            <!-- Subtitle matches a lighter blue tone from the logo -->
             <em>One call cleans it all!</em>
         </p>
     </div>
