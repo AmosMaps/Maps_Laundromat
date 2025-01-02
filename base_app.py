@@ -27,7 +27,7 @@ def add_footer():
         }
     </style>
     <div class="footer">
-        <p>Developed by Map's Holdings | Contact us at: <a href="mailto:amosphashe@gmail.com">amosphashe@gmail.com</a></p>
+        <p>Developed by Amos Maponya | Contact us at: <a href="mailto:amosphashe@gmail.com">amosphashe@gmail.com</a></p>
     </div>
     """
     st.markdown(footer_html, unsafe_allow_html=True)
@@ -38,8 +38,8 @@ if selected_page == "About":
     # Add a title and introduction
     st.markdown(
     """
-    <div style="background-color: #f5f5f5; padding: 20px; border-radius: 10px; border: 2px solid #EF5454;">
-        <h1 style="color: #EF5454; text-align: center; font-size: 3em; font-family: Arial, sans-serif;">
+    <div style="background-color: #f5f5f5; padding: 20px; border-radius: 10px; border: 2px solid #483D8B;">
+        <h1 style="color: #483D8B; text-align: center; font-size: 3em; font-family: Arial, sans-serif;">
             Map's Laundromat
         </h1>
         <p style="text-align: center; font-size: 1.2em; color: #555;">
