@@ -103,9 +103,6 @@ if selected_page == "About":
         st.image("images/Transport3.png", caption="Seamless Laundry Logistics", use_column_width=True)
         st.image("images/Transport4.png", caption="Effortless Drop-Offs", use_column_width=True)
 
-    # Add footer
-    add_footer()
-
 # Predict Your Cost Page
 if selected_page == "Predict Your Cost":
     st.title("Predict Your Cost")
