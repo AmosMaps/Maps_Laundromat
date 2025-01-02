@@ -9,6 +9,22 @@ st.sidebar.image("images/Maps-removebg.png", use_column_width=True)
 menu_options = ["About", "Predict Your Cost", "Booking Page", "Directions"]
 selected_page = st.sidebar.radio("Navigate To", menu_options)
 
+# Reusable function to add header
+def add_header():
+    st.markdown(
+        """
+        <div style="background-color: #f5f5f5; padding: 20px; border-radius: 10px; border: 2px solid #1E3A5F;">
+            <h1 style="color: #1E3A5F; text-align: center; font-size: 3em; font-family: 'Trebuchet MS', sans-serif;">
+                Map's Laundromat
+            </h1>
+            <p style="text-align: center; font-size: 1.2em; color: #4A6A8A;">
+                <em>One call cleans it all!</em>
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
 # Reusable function to add footer
 def add_footer():
     footer_html = """
@@ -35,24 +51,10 @@ def add_footer():
 
 # About Page
 if selected_page == "About":
-    # Add a title and introduction
-    st.markdown(
-    """
-    <div style="background-color: #f5f5f5; padding: 20px; border-radius: 10px; border: 2px solid #1E3A5F;"> 
-        <!-- Updated to match the dark blue tone of the logo -->
-        <h1 style="color: #1E3A5F; text-align: center; font-size: 3em; font-family: 'Trebuchet MS', sans-serif;"> 
-            <!-- Font updated to Trebuchet MS -->
-            Map's Laundromat
-        </h1>
-        <p style="text-align: center; font-size: 1.2em; color: #4A6A8A;"> 
-            <!-- Subtitle matches a lighter blue tone from the logo -->
-            <em>One call cleans it all!</em>
-        </p>
-    </div>
-    """,
-    unsafe_allow_html=True,
-    )
-
+    #Add a header
+    add_header()
+    
+    # Add a introduction
     st.markdown("""
     ### <span style="color:DarkSlateBlue">Introduction</span>
     Welcome to **Map's Laundromat**, where we provide fast, reliable, and affordable same-day laundry services in Turfloop. 
@@ -124,6 +126,9 @@ if selected_page == "About":
 
 # Predict Your Cost Page
 if selected_page == "Predict Your Cost":
+    #Add a header
+    add_header()
+    
     st.title("Predict Your Cost")
     st.write("Estimate your laundry cost by entering the quantities of the items you'd like washed.")
 
@@ -153,10 +158,15 @@ if selected_page == "Predict Your Cost":
     # Calculate total cost
     total_cost = blanket + carpet + wash + dry + soap + stasoft + sneakers + crocs_slides + transport_cost + plastic
     st.subheader(f"Your Estimated Cost: R {total_cost}")
+
+    #Add footer
     add_footer()
 
 # Booking Page
 if selected_page == "Booking Page":
+    #Add a header
+    add_header()
+    
     st.title("Booking Page")
 
     # Initialize booking_count in session state
@@ -198,6 +208,9 @@ if selected_page == "Booking Page":
 
 # Directions Page
 if selected_page == "Directions":
+    #Add a header
+    add_header()
+    
     st.title("Get Directions")
     st.write("Navigate to our laundromat via Google Maps for precise directions and landmarks.")
 
