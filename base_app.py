@@ -12,13 +12,26 @@ selected_page = st.sidebar.radio("Navigate To", menu_options)
 # Reusable function to add footer
 def add_footer():
     footer_html = """
-    <div style='text-align: center;'>
-        <p>Developed by Map's Holdings | Contact us at: amosphashe@gmail.com</p>
+    <style>
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f5f5f5;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 0.9em;
+            color: #555;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+    <div class="footer">
+        <p>Developed by Map's Holdings | Contact us at: <a href="mailto:amosphashe@gmail.com">amosphashe@gmail.com</a></p>
     </div>
     """
-    st.markdown("#")
-    st.divider()
     st.markdown(footer_html, unsafe_allow_html=True)
+
 
 # About Page
 if selected_page == "About":
@@ -102,6 +115,9 @@ if selected_page == "About":
     with cols[1]:
         st.image("images/Transport3.png", caption="Seamless Laundry Logistics", use_column_width=True)
         st.image("images/Transport4.png", caption="Effortless Drop-Offs", use_column_width=True)
+    
+    #Add footer
+    add_footer()
 
 # Predict Your Cost Page
 if selected_page == "Predict Your Cost":
@@ -172,6 +188,8 @@ if selected_page == "Booking Page":
 
     remaining_bookings = max(0, 10 - st.session_state.booking_count[today])
     st.info(f"Remaining bookings for today: {remaining_bookings}")
+    
+    #Add footer
     add_footer()
 
 
@@ -188,4 +206,6 @@ if selected_page == "Directions":
     google_maps_url = f"https://www.google.com/maps/dir/?api=1&destination={laundromat_location[0]},{laundromat_location[1]}"
     if st.button("Get Directions"):
         st.markdown(f"[Click here for Google Maps Directions]({google_maps_url})", unsafe_allow_html=True)
+    
+    #Add footer
     add_footer()
