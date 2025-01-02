@@ -23,7 +23,20 @@ def add_footer():
 # About Page
 if selected_page == "About":
     # Add a title and introduction
-    st.markdown("# <span style='color:#EF5454'>Map's Laundromat</span>", unsafe_allow_html=True)
+    st.markdown(
+    """
+    <div style="background-color: #f5f5f5; padding: 20px; border-radius: 10px; border: 2px solid #EF5454;">
+        <h1 style="color: #EF5454; text-align: center; font-size: 3em; font-family: Arial, sans-serif;">
+            Map's Laundromat
+        </h1>
+        <p style="text-align: center; font-size: 1.2em; color: #555;">
+            <em>One call cleans it all!</em>
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+    )
+
     st.markdown("""
     ### <span style="color:DarkSlateBlue">Introduction</span>
     Welcome to **Map's Laundromat**, where we provide fast, reliable, and affordable same-day laundry services in Turfloop. 
